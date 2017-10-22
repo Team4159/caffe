@@ -1,4 +1,5 @@
 tl;dr:
+Make a fresh install of Ubuntu 17.04
 Install packages. Install GCC 6.4 instead of 7 to avoid having to build and install 6.4
 Install CUDA 9 (or the correct OpenCL distribution if you have AMD GPU)
 Config and Build SSD Caffe
@@ -12,21 +13,13 @@ https://stackoverflow.com/questions/39130040/cmath-hides-isnan-in-math-h-in-c14-
 http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation
 
 Building SSD Caffe:
-0) Now that gcc is installed, use update-alternatives to change the version of gcc and g++:
-https://github.com/caffe2/caffe2/issues/442
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 70
-sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-6.4/bin/gcc 60
-sudo update-alternatives --install /usr/bin/g++ g++ /opt/gcc-6.4/bin/g++ 60
-
 1) Fix HDF5 serial error:
 https://github.com/NVIDIA/DIGITS/issues/156
 
-1a) Fix error of CUDA version in boost. Go to http://live.boost.org/doc/libs/1_65_1/boost/config/compiler/nvcc.hpp and paste the nvidia specific code to /usr/include/boost/config/compiler/nvcc.hpp
+1a) Fix error of CUDA version in boost. Copy the nvcc.hpp in setup to /usr/include/boost/config/compiler/nvcc.hpp
 
-2) Make a copy of the Makefile.config.example, edit it, then run "make all -j8"
-3) You will likely get an error about libmirclient and CXXABI_1.3.11. Switch back to gcc 7 with update-alternatives and then run it again, it should finish (my guess is due to incompatibility between the existing library object and GCC 6.4.0. So only use the latest supported OS, which is 17.04)
-4) Switch back to GCC 6.4 and run "make py -j8"
+2) Make a copy of the Makefile.config.example, edit it, then run "make all -j8", "make py -j8", "make test -j8"
+3) You may get an error about libmirclient and CXXABI_1.3.11 if you compiled gcc 6.4. Switch back to gcc 7 with update-alternatives and then run it again, it should finish (my guess is due to incompatibility between the existing library object and GCC 6.4.0. So only use the latest supported OS, which is 17.04)
 
 OLD: Compiling GCC 6.4:(Takes about 30 min for an Intel Core i7 4700k)
 
@@ -38,4 +31,12 @@ Use this command: ../gcc-6.4.0/configure --enable-languages=c,c++ --prefix=/opt/
 https://github.com/voidlinux/void-packages/issues/7284
 
 3) The build should end successfully (a bunch of Leaving directory lines). Now run sudo make install
+
+4) Now that gcc is installed, use update-alternatives to change the version of gcc and g++:
+https://github.com/caffe2/caffe2/issues/442
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 70
+sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-6.4/bin/gcc 60
+sudo update-alternatives --install /usr/bin/g++ g++ /opt/gcc-6.4/bin/g++ 60
+
 
