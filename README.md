@@ -19,13 +19,21 @@ sudo pip install protobuf
 https://stackoverflow.com/questions/39130040/cmath-hides-isnan-in-math-h-in-c14-c11
 http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation
 
-3. Building SSD Caffe:
+3. Add environment variables to ~/.bashrc, then run ```source ~/.bashrc``` to persist them:
+```
+export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CAFFE_ROOT=/home/<YOUR_USERNAME>/caffe
+export PYTHONPATH=$CAFFE_ROOT/python:$PYTHONPATH
+```
+
+4. Building SSD Caffe:
 * Copy the Makefile.config from setup to the root folder
 * Fix error of CUDA version in boost. Copy the nvcc.hpp in setup to /usr/include/boost/config/compiler/nvcc.hpp
 
-Now build (jN refers to build with N cores, replace with the number of cores for your computer:
+Now build (jN refers to build with N virtual cores, replace with the number of cores for your computer):
 ```Shell
-make all -j8
+make -j8
 make py -j8
 make test -j8
 ```
