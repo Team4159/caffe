@@ -40,22 +40,20 @@ make test -j8
 
 ## Preparing Data
 
-First set the CAFFE_ROOT environment variable in your .bashrc file to the root installation folder and run `source ~/.bashrc` to apply.
-
-Clone our caffe-data repo inside the data folder and follow the instructions for that repo to get the data. Now you can prepare the LMDB:
-
-```Shell
-cd $CAFFE_ROOT
-./data/ml/create_data.sh
-```
+Follow the directions in our [data repo](https://github.com/Team4159/caffe-data) to prepare our data to be trained.
 
 ## Training
+Find and open examples/ssd/ssd_pascal_steamworks.py, and look for the base_lr and batch_size, and accum_batch_size variables. The learning rate determines how fast the training will advance in regards of optimizing the CNN's accuracy. The slower the learning rate, the more accurate it will be, but the faster the learning rate the more likely it can overshoot and diverge and thus making the model useless. This is indicated by a loss of NaN in the log. So how can we prevent this? By adjusting the base_lr (base learning rate). 
 
-Train the model using `examples/ssd/ssd_pascal_steamworks.py`:
+Also be aware of high memory usage during training. If the batch_size is too high (more than 4) then the program will crash, too low and the learning may diverge. So far 4 seems to work best for a 3GB GeForce 1060 GTX, and the accum_batch_size should be 16 to compensate for that. There also needs to be enough memory for testing while training, or it can be skipped by setting test_interval higher than max_iter.
+
+Finally, train the model. This will take some time:
 
 ```Shell
 cd $CAFFE_ROOT
 python examples/ssd/ssd_pascal_steamworks.py
 ```
+## Verification
+You can evaluate a model by editing score_ssd_pascal.py to use the newly created model, and also follow [these directions](https://github.com/weiliu89/caffe/blob/ssd/examples/ssd_detect.ipynb) in order to visualize detection.
 
-It's very likely that won't do anything, so far due to I/O issues. To verify your GPU works with Caffe, follow the mnist example to training the LeNet model, which should work.
+TODO How to use OpenCV to detect images in real time
