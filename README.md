@@ -87,6 +87,11 @@ The "--expt-relaxed-constexpr" is needed to avoid compiler errors. During config
 Compiling will take a long time, so relax in the mean time.
 
 ### OpenCV on the Robot
-WPILib contains OpenCV 3.1, which should have support for CNNs for deep learning. However, it is not known whether a 90 MB Caffe model file can fit into the RoboRio. If not then we must use a coprocessor (ideally a Jetson but an Android device would work too)
+WPILib contains OpenCV 3.1, which should have support for CNNs for deep learning. However, it is not known whether a 90 MB Caffe model file can fit into the RoboRio. If not then we must use a coprocessor (ideally a Jetson - we haven't confirmed OpenCL support)
 
-### Using OpenCV - coming soon!
+### Using OpenCV
+Use ```examples/ssd_opencv_ml.py``` to run forward propagation with the inputted image, which will show any detected objects and the time it took. Here are some results:
+
+<img src="detection1.png" />
+<img src="detection2.png" />
+
