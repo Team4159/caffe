@@ -6,7 +6,7 @@ This is a CNN (convolutional neural network) for detecting reflective tape in FI
 tl;dr:
 Create a fresh install of Ubuntu 17.04.
 Install packages. Install GCC 6.4 instead of 7 to avoid having to build and install 6.4
-Install CUDA 9 (or the correct OpenCL distribution if you have AMD GPU)
+Install CUDA 9.1
 Config and Build SSD Caffe
 
 1. Install the following packages:
@@ -15,7 +15,7 @@ sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev 
 sudo pip install protobuf
 ```
 
-2. Install CUDA 9 (download from nvidia, nvidia-cuda-toolkit has version 8). This requires GCC 6.x (6.4), because GCC 5.3 will NOT work on Ubuntu 17.10 (and I presume 17.04): 
+2. Install CUDA 9.1 (download from nvidia, nvidia-cuda-toolkit has version 8). This requires GCC 6.x (6.4), because GCC 5.3 will NOT work on Ubuntu 17.10 (and I presume 17.04): 
 https://stackoverflow.com/questions/39130040/cmath-hides-isnan-in-math-h-in-c14-c11
 http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation
 
@@ -65,7 +65,7 @@ You can evaluate a model by editing score_ssd_pascal.py to test the newly create
 Now we get to the main purpose of the project, to use the model for real time detection! 
 
 ### Compiling OpenCV on Ubuntu
-First we must compile the latest version of OpenCV (3.3.1) with the right dependencies and arguments. 
+First we must compile the latest version of OpenCV (3.4.0) with the right dependencies and arguments. 
 
 Note: If you accidentially installed GCC 7 and thus have installations for both 6.4 and 7, then CMake will always detect GCC 7 and compiling the CUDA modules will fail, even when using update-alternatives. The simple solution is to explicitly tell CMake the compiler paths:
 ```
@@ -87,7 +87,7 @@ The "--expt-relaxed-constexpr" is needed to avoid compiler errors. During config
 Compiling will take a long time, so relax in the mean time.
 
 ### OpenCV on the Robot
-WPILib contains OpenCV 3.1, which should have support for CNNs for deep learning. However, it is not known whether a 90 MB Caffe model file can fit into the RoboRio. If not then we must use a coprocessor (ideally a Jetson - we haven't confirmed OpenCL support)
+We must use a coprocessor (ideally a Jetson - we haven't confirmed OpenCL support)
 
 ### Using OpenCV
 Use ```examples/ssd_opencv_ml.py``` to run forward propagation with the inputted image, which will show any detected objects and the time it took. Here are some results:
@@ -95,3 +95,7 @@ Use ```examples/ssd_opencv_ml.py``` to run forward propagation with the inputted
 <img src="detection1.png" />
 <img src="detection2.png" />
 
+### TODO
+* Use cuDNN and measure performance improvement
+* Optimize this CNN
+* Find out if the OpenCL branch can support SSD
