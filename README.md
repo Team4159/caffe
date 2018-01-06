@@ -11,7 +11,7 @@ Config and Build SSD Caffe
 
 1. Install the following packages:
 ```Shell
-sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libboost-all-dev libatlas-base-dev python-dev python3-dev libgflags-dev libgoogle-glog-dev liblmdb-dev python-numpy gcc-6 bison curl flex g++-multilib gcc-multilib git gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2-utils lzop pngcrush schedtool xsltproc python-skimage python-pip
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libboost-all-dev libatlas-base-dev python-dev python3-dev libgflags-dev libgoogle-glog-dev liblmdb-dev python-numpy gcc-6 g++-6 bison curl flex g++-multilib gcc-multilib git gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2-utils lzop pngcrush schedtool xsltproc python-skimage python-pip
 sudo pip install protobuf
 ```
 
@@ -22,7 +22,7 @@ http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-inst
 3. Add environment variables to ~/.bashrc, then run ```source ~/.bashrc``` to persist them:
 ```
 export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export CAFFE_ROOT=/home/<YOUR_USERNAME>/caffe
 export PYTHONPATH=$CAFFE_ROOT/python:$PYTHONPATH
 ```
@@ -67,10 +67,10 @@ Now we get to the main purpose of the project, to use the model for real time de
 ### Compiling OpenCV on Ubuntu
 First we must compile the latest version of OpenCV (3.4.0) with the right dependencies and arguments. 
 
-Note: If you accidentially installed GCC 7 and thus have installations for both 6.4 and 7, then CMake will always detect GCC 7 and compiling the CUDA modules will fail, even when using update-alternatives. The simple solution is to explicitly tell CMake the compiler paths:
+Note: Due to the package installation, GCC 7 and 6 were installed. CMake will always detect GCC 7 and compiling the CUDA modules will fail, even when using update-alternatives. The simple solution is to explicitly tell CMake the compiler paths:
 ```
-export CC=<GCC 6 binary file path>
-export CXX=<G++ 6 binary file path>
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
 ```
 
 Download the source zip file, extract it, then open a terminal and execute
@@ -98,4 +98,3 @@ Use ```examples/ssd_opencv_ml.py``` to run forward propagation with the inputted
 ### TODO
 * Use cuDNN and measure performance improvement
 * Optimize this CNN
-* Find out if the OpenCL branch can support SSD
