@@ -329,13 +329,13 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0"
+gpus = "0,1,2,3"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 16
-accum_batch_size = 16
+batch_size = 32
+accum_batch_size = 32
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
@@ -399,7 +399,7 @@ det_out_param = {
         'output_name_prefix': "comp4_det_test_",
         'output_format': "VOC",
         'label_map_file': label_map_file,
-        #'name_size_file': name_size_file,
+        'name_size_file': name_size_file,
         'num_test_image': num_test_image,
         },
     'keep_top_k': 200,
@@ -413,7 +413,7 @@ det_eval_param = {
     'background_label_id': background_label_id,
     'overlap_threshold': 0.5,
     'evaluate_difficult_gt': False,
-    #'name_size_file': name_size_file,
+    'name_size_file': name_size_file,
     }
 
 ### Hopefully you don't need to change the following ###
