@@ -34,7 +34,7 @@ LIB_BUILD_DIR := $(BUILD_DIR)/lib
 STATIC_NAME := $(LIB_BUILD_DIR)/lib$(LIBRARY_NAME).a
 DYNAMIC_VERSION_MAJOR 		:= 1
 DYNAMIC_VERSION_MINOR 		:= 0
-DYNAMIC_VERSION_REVISION 	:= 0
+DYNAMIC_VERSION_REVISION 	:= 0-rc3
 DYNAMIC_NAME_SHORT := lib$(LIBRARY_NAME).so
 #DYNAMIC_SONAME_SHORT := $(DYNAMIC_NAME_SHORT).$(DYNAMIC_VERSION_MAJOR)
 DYNAMIC_VERSIONED_NAME_SHORT := $(DYNAMIC_NAME_SHORT).$(DYNAMIC_VERSION_MAJOR).$(DYNAMIC_VERSION_MINOR).$(DYNAMIC_VERSION_REVISION)
@@ -178,7 +178,7 @@ ifneq ($(CPU_ONLY), 1)
 	LIBRARIES := cudart cublas curand
 endif
 
-LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_hl hdf5
+LIBRARIES += glog gflags protobuf boost_system boost_filesystem boost_regex m hdf5_hl hdf5
 
 # handle IO dependencies
 USE_LEVELDB ?= 1
@@ -195,7 +195,7 @@ ifeq ($(USE_OPENCV), 1)
 	LIBRARIES += opencv_core opencv_highgui opencv_imgproc
 
 	ifeq ($(OPENCV_VERSION), 3)
-		LIBRARIES += opencv_imgcodecs
+		LIBRARIES += opencv_imgcodecs opencv_videoio
 	endif
 
 endif
@@ -328,12 +328,6 @@ ifeq ($(USE_CUDNN), 1)
 	COMMON_FLAGS += -DUSE_CUDNN
 endif
 
-# NCCL acceleration configuration
-ifeq ($(USE_NCCL), 1)
-	LIBRARIES += nccl
-	COMMON_FLAGS += -DUSE_NCCL
-endif
-
 # configure IO libraries
 ifeq ($(USE_OPENCV), 1)
 	COMMON_FLAGS += -DUSE_OPENCV
@@ -410,7 +404,7 @@ LIBRARY_DIRS += $(LIB_BUILD_DIR)
 CXXFLAGS += -MMD -MP
 
 # Complete build flags.
-COMMON_FLAGS += $(foreach includedir,$(INCLUDE_DIRS),-I$(includedir))
+COMMON_FLAGS += $(foreach includedir,$(INCLUDE_DIRS),-isystem $(includedir))
 CXXFLAGS += -pthread -fPIC $(COMMON_FLAGS) $(WARNINGS)
 NVCCFLAGS += -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)
 # mex may invoke an older gcc that is too liberal with -Wuninitalized
