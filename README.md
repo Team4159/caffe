@@ -37,11 +37,6 @@ make -j8
 make py -j8
 make test -j8
 ```
-## Directory Structure
-* data - Each dataset has a folder that contains text files and the training and test set, the labelmap, and scripts to make them.
-* examples - The SSD folder contains all the scripts we will be using to train and test models as well as using models for detection.
-* models - For each dataset the model file and metadata will be created in its folder. Snapshots will be here to which can be used to resume training from that point.
-* ~/data - Where the dataset resides and has folders for Annotations and the images. Test results will also be in this folder.
 
 ## Preparing Data
 
@@ -59,6 +54,6 @@ cd $CAFFE_ROOT
 python examples/ssd/ssd_pascal_steamworks.py
 ```
 ## Verification
-You can evaluate a model by editing score_ssd_pascal.py to test the newly created model again a test set, similar to training except training does not occur. Change test_batch_size if the GPU runs out of free memory. The easiest way to test the model with a given image is to use ssd_detect in the examples folder, which takes in an image and outputs any detected objects (remember to run it from the root folder). You can also install Jupyter Notebook and follow [these directions](https://github.com/weiliu89/caffe/blob/ssd/examples/ssd_detect.ipynb) in order to visualize detection.
+You can evaluate a model by editing score_ssd_pascal.py to use the newly created model, and also follow [these directions](https://github.com/weiliu89/caffe/blob/ssd/examples/ssd_detect.ipynb) in order to visualize detection.
 
 TODO How to use OpenCV to detect images in real time
