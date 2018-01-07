@@ -68,7 +68,6 @@ class NCCL : public GPUParams<Dtype>,
              public Solver<Dtype>::Callback,
              public Net<Dtype>::Callback {
  public:
-<<<<<<< HEAD
   /**
    * Single process version.
    */
@@ -100,20 +99,6 @@ class NCCL : public GPUParams<Dtype>,
    * Single process multi-GPU.
    */
   void Run(const vector<int>& gpus, const char* restore);
-=======
-  explicit P2PSync(shared_ptr<Solver<Dtype> > root_solver,
-                   P2PSync<Dtype>* parent, const SolverParameter& param);
-  virtual ~P2PSync();
-
-  inline const shared_ptr<Solver<Dtype> >& solver() const {
-    return solver_;
-  }
-
-  void Run(const vector<int>& gpus);
-  void Prepare(const vector<int>& gpus,
-               vector<shared_ptr<P2PSync<Dtype> > >* syncs);
-  inline int initial_iter() const { return initial_iter_; }
->>>>>>> f5eac041aafbc8b86954bd161710f65e70042ce6
 
  protected:
   void Init();

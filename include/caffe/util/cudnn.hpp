@@ -114,13 +114,6 @@ inline void setConvolutionDesc(cudnnConvolutionDescriptor_t* conv,
     cudnnTensorDescriptor_t bottom, cudnnFilterDescriptor_t filter,
     int pad_h, int pad_w, int stride_h, int stride_w) {
 #if CUDNN_VERSION_MIN(6, 0, 0)
-<<<<<<< HEAD
-=======
-  CUDNN_CHECK(cudnnSetConvolution2dDescriptor(*conv,
-      pad_h, pad_w, stride_h, stride_w, 1, 1, CUDNN_CROSS_CORRELATION,
-      dataType<Dtype>::type));
-#else
->>>>>>> f5eac041aafbc8b86954bd161710f65e70042ce6
   CUDNN_CHECK(cudnnSetConvolution2dDescriptor(*conv,
       pad_h, pad_w, stride_h, stride_w, 1, 1, CUDNN_CROSS_CORRELATION,
       dataType<Dtype>::type));

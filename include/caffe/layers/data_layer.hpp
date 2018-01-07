@@ -30,13 +30,9 @@ class DataLayer : public BasePrefetchingDataLayer<Dtype> {
   bool Skip();
   virtual void load_batch(Batch<Dtype>* batch);
 
-<<<<<<< HEAD
   shared_ptr<db::DB> db_;
   shared_ptr<db::Cursor> cursor_;
   uint64_t offset_;
-=======
-  DataReader<Datum> reader_;
->>>>>>> f5eac041aafbc8b86954bd161710f65e70042ce6
 };
 
 }  // namespace caffe

@@ -13,7 +13,6 @@ apt-get install -y --no-install-recommends \
   libboost-python-dev \
   libboost-system-dev \
   libboost-thread-dev \
-  libboost-regex-dev \
   libgflags-dev \
   libgoogle-glog-dev \
   libhdf5-serial-dev \

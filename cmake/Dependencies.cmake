@@ -5,15 +5,9 @@ set(Caffe_DEFINITIONS "")
 set(Caffe_COMPILE_OPTIONS "")
 
 # ---[ Boost
-<<<<<<< HEAD
 find_package(Boost 1.54 REQUIRED COMPONENTS system thread filesystem)
 list(APPEND Caffe_INCLUDE_DIRS PUBLIC ${Boost_INCLUDE_DIRS})
 list(APPEND Caffe_LINKER_LIBS PUBLIC ${Boost_LIBRARIES})
-=======
-find_package(Boost 1.46 REQUIRED COMPONENTS system thread filesystem regex)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-list(APPEND Caffe_LINKER_LIBS ${Boost_LIBRARIES})
->>>>>>> f5eac041aafbc8b86954bd161710f65e70042ce6
 
 # ---[ Threads
 find_package(Threads REQUIRED)
@@ -100,7 +94,7 @@ endif()
 
 # ---[ OpenCV
 if(USE_OPENCV)
-  find_package(OpenCV QUIET COMPONENTS core highgui imgproc imgcodecs videoio)
+  find_package(OpenCV QUIET COMPONENTS core highgui imgproc imgcodecs)
   if(NOT OpenCV_FOUND) # if not OpenCV 3.x, then imgcodecs are not found
     find_package(OpenCV REQUIRED COMPONENTS core highgui imgproc)
   endif()
