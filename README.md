@@ -52,7 +52,7 @@ Find and open examples/ssd/ssd_pascal_steamworks.py, and look for the base_lr an
 
 Also be aware of high memory usage during training. If the batch_size is too high (more than 4) then the program will crash, too low and the learning may diverge. So far 4 seems to work best for a 3GB GeForce 1060 GTX, and the accum_batch_size should be 16 to compensate for that. There also needs to be enough memory for testing while training, or it can be skipped by setting test_interval higher than max_iter.
 
-Finally, train the model. This will take some time (4.5 hours for 10000 iterations for me):
+Finally, train the model. This will take some time:
 
 ```Shell
 cd $CAFFE_ROOT
@@ -61,32 +61,4 @@ python examples/ssd/ssd_pascal_steamworks.py
 ## Verification
 You can evaluate a model by editing score_ssd_pascal.py to test the newly created model again a test set, similar to training except training does not occur. Change test_batch_size if the GPU runs out of free memory. The easiest way to test the model with a given image is to use ssd_detect in the examples folder, which takes in an image and outputs any detected objects (remember to run it from the root folder). You can also install Jupyter Notebook and follow [these directions](https://github.com/weiliu89/caffe/blob/ssd/examples/ssd_detect.ipynb) in order to visualize detection.
 
-## OpenCV Integration
-Now we get to the main purpose of the project, to use the model for real time detection! 
-
-### Compiling OpenCV on Ubuntu
-First we must compile the latest version of OpenCV (3.3.1) with the right dependencies and arguments. 
-
-Note: If you accidentially installed GCC 7 and thus have installations for both 6.4 and 7, then CMake will always detect GCC 7 and compiling the CUDA modules will fail, even when using update-alternatives. The simple solution is to explicitly tell CMake the compiler paths:
-```
-export CC=<GCC 6 binary file path>
-export CXX=<G++ 6 binary file path>
-```
-
-Download the source zip file, extract it, then open a terminal and execute
-```
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D FORCE_VTK=ON -D WITH_TBB=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D WITH_CUBLAS=ON -D CUDA_NVCC_FLAGS="-D_FORCE_INLINES --expt-relaxed-constexpr" -D WITH_GDAL=ON -D WITH_XINE=ON -D BUILD_EXAMPLES=ON ..
-make -j8
-sudo make install
-```
-
-The "--expt-relaxed-constexpr" is needed to avoid compiler errors. During configuration some packages will not be found when using Ubuntu 17.10, this is not a big problem as long as the "Configuration Done" line is shown.
-
-Compiling will take a long time, so relax in the mean time.
-
-### OpenCV on the Robot
-WPILib contains OpenCV 3.1, which should have support for CNNs for deep learning. However, it is not known whether a 90 MB Caffe model file can fit into the RoboRio. If not then we must use a coprocessor (ideally a Jetson but an Android device would work too)
-
-### Using OpenCV - coming soon!
+TODO How to use OpenCV to detect images in real time
