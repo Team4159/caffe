@@ -153,10 +153,15 @@ void DataTransformer<Dtype>::Transform(const Datum& datum,
 
 template<typename Dtype>
 void DataTransformer<Dtype>::Transform(const Datum& datum,
+<<<<<<< HEAD
+                                       Blob<Dtype>* transformed_blob) {
+  // If datum is encoded, decode and transform the cv::image.
+=======
                                        Blob<Dtype>* transformed_blob,
                                        NormalizedBBox* crop_bbox,
                                        bool* do_mirror) {
   // If datum is encoded, decoded and transform the cv::image.
+>>>>>>> f5eac041aafbc8b86954bd161710f65e70042ce6
   if (datum.encoded()) {
 #ifdef USE_OPENCV
     CHECK(!(param_.force_color() && param_.force_gray()))
@@ -1130,4 +1135,3 @@ int DataTransformer<Dtype>::Rand(int n) {
 INSTANTIATE_CLASS(DataTransformer);
 
 }  // namespace caffe
-
