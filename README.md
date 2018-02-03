@@ -9,7 +9,7 @@ Install packages. Install GCC 6.4 instead of 7 to avoid having to build and inst
 Install CUDA 9.1
 Config and Build SSD Caffe
 
-Note: If building caffe on the **Jetson**, this link might help solve some errors: https://github.com/dusty-nv/jetson-inference/issues/9.  If you get an error involving ```.build_release/cuda/src/caffe/layers/detection_output_layer.o``` this might help: https://github.com/bvlc/caffe/issues/4957#issuecomment-280336077. GCC versions higher than 5 are not supported.
+Note: If building caffe on the **Jetson**, this link might help solve some errors: https://github.com/dusty-nv/jetson-inference/issues/9.  If you get an error involving ```.build_release/cuda/src/caffe/layers/detection_output_layer.o``` this might help: https://github.com/bvlc/caffe/issues/4957#issuecomment-280336077. GCC versions higher than 5 are not supported. Make sure you have update-alternatives set so that it uses GCC 5. Using different versions of the compiler will fail during linking.
 
 1. Install the following packages:
 ```Shell
